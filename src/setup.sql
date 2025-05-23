@@ -72,11 +72,3 @@ INSERT INTO MagazzinoProdotti(magazzinoID, prodottoID, quantita) VALUES
 (4, 3, 6),  -- Torino - Stampante
 (5, 1, 4),  -- Firenze - Laptop
 (5, 5, 10); -- Firenze - Tastiera
-=======
-INSERT INTO prodotti (nome, prezzo) VALUES
-('iphone', 1000.00),
-('macbook', 2000.00),
-('ipad', 800.00),
-('apple watch', 400.00),
-('airpods', 200.00);
->>>>>>> 11f168ea13c0754ecd8f13c16d5feec4e83ff7e8
