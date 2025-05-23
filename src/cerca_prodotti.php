@@ -37,28 +37,40 @@ session_start();
         <div class="result-container">
             <?php
             if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["prodotto"])) {
-                $prodotto = $_POST["prodotto"]; // Intenzionalmente vulnerabile
-                $sql_prod = "SELECT nome, quantita FROM prodotti WHERE nome LIKE '$prodotto';";
+                $prodotto = $_POST["prodotto"]; // Vulnerabile di proposito
 
-                if ($conn->multi_query($sql_prod)) {
-                    do {
-                        if ($result = $conn->store_result()) {
-                            if ($result->num_rows > 0) {
-                                $row = $result->fetch_assoc();
-                                $_SESSION['loggato'] = true;
+                // Recupero prodotto
+                $sql = "SELECT pID, nome, quantita FROM prodotti WHERE nome LIKE '%$prodotto%'";
+                $res = $conn->query($sql);
 
-                                echo "<div class='success-message'>";
-                                echo "<strong>Prodotto:</strong> " . $row['nome'] . "<br>";
-                                echo "<strong>Disponibili:</strong> " . $row['quantita'];
-                                echo "</div>";
-                            } else {
-                                echo "<div class='error-message'>Prodotto non trovato o esaurito.</div>";
+                if ($res && $res->num_rows > 0) {
+                    while ($row = $res->fetch_assoc()) {
+                        $pID = $row['pID'];
+                        echo "<div class='success-message'>";
+                        echo "<strong>Prodotto:</strong> " . $row['nome'] . "<br>";
+                        echo "<strong>Totale prodotti disponibili:</strong> " . $row['quantita'] . "<br>";
+                        echo "<strong>Presenti nei seguenti centri:</strong><br>";
+
+                        $sql2 = "SELECT m.posizione, mp.quantita 
+                                 FROM MagazzinoProdotti mp 
+                                 JOIN Magazzino m ON mp.magazzinoID = m.mID 
+                                 WHERE mp.prodottoID = $pID";
+                        $res2 = $conn->query($sql2);
+
+                        if ($res2 && $res2->num_rows > 0) {
+                            echo "<ul>";
+                            while ($mag = $res2->fetch_assoc()) {
+                                echo "<li><strong>{$mag['posizione']}:</strong> {$mag['quantita']}</li>";
                             }
-                            $result->free();
+                            echo "</ul>";
+                        } else {
+                            echo "Nessun magazzino trovato.";
                         }
-                    } while ($conn->next_result());
+
+                        echo "</div><hr>";
+                    }
                 } else {
-                    echo "<div class='error-message'><i class='fas fa-exclamation-circle'></i> Errore: " . $conn->error . "</div>";
+                    echo "<div class='error-message'>Prodotto non trovato.</div>";
                 }
             }
             ?>
