@@ -1,4 +1,5 @@
 :root {
+    /* Variabili colore (rimangono uguali) */
     --primary: #4361ee;
     --primary-dark: #3a56d4;
     --secondary: #3f37c9;
@@ -13,6 +14,7 @@
     --transition: all 0.3s ease;
 }
 
+/* Reset e stili base */
 * {
     margin: 0;
     padding: 0;
@@ -28,7 +30,7 @@ body {
     color: var(--dark);
 }
 
-/* Header styles */
+/* Layout principali */
 .page-header {
     padding: 1.5rem;
     display: flex;
@@ -37,24 +39,6 @@ body {
     box-shadow: var(--shadow);
 }
 
-/* Link styles */
-.reset-link, .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    transition: var(--transition);
-}
-
-.reset-link:hover, .back-link:hover {
-    background-color: rgba(67, 97, 238, 0.1);
-}
-
-/* Main content styles */
 .main-content {
     flex: 1;
     display: flex;
@@ -63,7 +47,7 @@ body {
     padding: 2rem;
 }
 
-/* Form container styles */
+/* Componenti form */
 .form-container {
     background-color: white;
     border-radius: var(--border-radius);
@@ -74,24 +58,11 @@ body {
     animation: fadeIn 0.5s ease;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Form title styles */
 .form-title {
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
     color: var(--primary);
     text-align: center;
-}
-
-/* Form styles */
-.login-form, .reset-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
 }
 
 .form-group {
@@ -119,7 +90,7 @@ body {
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
 }
 
-/* Button styles */
+/* Bottoni e link */
 .login-btn, .reset-btn {
     background-color: var(--primary);
     color: white;
@@ -141,7 +112,37 @@ body {
     background-color: var(--primary-dark);
 }
 
-/* Result container styles */
+.reset-link, .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.reset-link:hover, .back-link:hover {
+    background-color: rgba(67, 97, 238, 0.1);
+}
+
+.logout-btn {
+    background-color: var(--danger);
+    color: white;
+    padding: 0.8rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.logout-btn:hover {
+    background-color: #d11a4b;
+}
+
+/* Messaggi e risultati */
 .result-container {
     background-color: white;
     border-radius: var(--border-radius);
@@ -164,13 +165,6 @@ body {
     color: var(--danger);
 }
 
-.result-message {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    font-weight: 500;
-}
-
-/* Message styles */
 .success-message {
     background-color: rgba(76, 201, 240, 0.2);
     color: var(--success-dark);
@@ -189,12 +183,105 @@ body {
     text-align: center;
 }
 
-/* Action links styles */
-.action-links {
-    margin-top: 1.5rem;
+/* Gestione prodotti */
+.products-list {
+    margin-top: 2rem;
 }
 
-/* Responsive styles */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.product-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-meta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.product-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quantity-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.quantity-btn.plus {
+    background-color: var(--success-dark);
+}
+
+.quantity-btn.minus {
+    background-color: var(--danger);
+}
+
+.quantity-btn:hover {
+    transform: scale(1.1);
+}
+
+.product-quantity {
+    min-width: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--gray);
+}
+
+.delete-btn {
+    color: var(--danger);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+    transition: var(--transition);
+}
+
+.delete-btn:hover {
+    color: white;
+    background-color: var(--danger);
+    border-radius: 50%;
+}
+
+/* Animazioni */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
 @media (max-width: 480px) {
     .form-container {
         padding: 1.5rem;
