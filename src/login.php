@@ -16,9 +16,6 @@ $password = $_POST['password'];
 
 $sql = "SELECT * FROM utenti WHERE username='$username' AND password='$password';";
 
-$login_success = false;
-
-
 ?>
 <!DOCTYPE html>
 <html lang="it">
