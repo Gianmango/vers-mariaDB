@@ -24,7 +24,6 @@ CREATE TABLE Magazzino (
     posizione VARCHAR(255) NOT NULL
 );
 
-<<<<<<< HEAD
 DROP TABLE IF EXISTS MagazzinoProdotti;
 CREATE TABLE MagazzinoProdotti (
     magazzinoID INT,
@@ -39,7 +38,7 @@ CREATE TABLE MagazzinoProdotti (
 
 -- Inserimento di utenti
 INSERT INTO utenti (username, password, ruolo) VALUES
-('admin', 'adminpass', 'amministratore'),
+('admin', 'adminpass', 'admin'),
 ('utente1', 'utente1pass', 'utente'),
 ('utente2', 'utente2pass', 'utente');
 
