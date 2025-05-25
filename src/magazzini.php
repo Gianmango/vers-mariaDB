@@ -2,28 +2,28 @@
 session_start();
 include("db.php");
 
-if (!isset($_SESSION["is_admin"]) || $_SESSION["is_admin"] !== true) {
-    echo "<p>Accesso negato. Questa pagina è riservata agli amministratori.</p>";
-    exit;
-}
+$msg = "";
 
-// Aggiunta magazzino (VULNERABILE A SQL INJECTION)
+// Aggiunta magazzino con prepared statement
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["aggiungi"])) {
     $posizione = $_POST["posizione"];
-    $query = "INSERT INTO magazzini (posizione) VALUES ('$posizione')";
-    $conn->query($query);
+    $stmt = $conn->prepare("INSERT INTO Magazzino (posizione) VALUES (?)");
+    $stmt->bind_param("s", $posizione);
+    $stmt->execute();
     $msg = "✅ Magazzino aggiunto.";
 }
 
-// Eliminazione magazzino (VULNERABILE A SQL INJECTION)
+// Eliminazione magazzino con prepared statement
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["elimina"])) {
     $id = $_POST["magazzinoID"];
-    $query = "DELETE FROM magazzini WHERE magazzinoID = $id";
-    $conn->query($query);
+    $stmt = $conn->prepare("DELETE FROM Magazzino WHERE mID = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
     $msg = "🗑️ Magazzino eliminato.";
 }
 
-$result = $conn->query("SELECT * FROM magazzini");
+// Recupero magazzini
+$result = $conn->query("SELECT * FROM Magazzino");
 ?>
 
 <!DOCTYPE html>
@@ -31,36 +31,45 @@ $result = $conn->query("SELECT * FROM magazzini");
 <head>
     <meta charset="UTF-8">
     <title>Gestione Magazzini</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
-    <div class="admin-container">
-        <h2>Gestione Magazzini (Admin)</h2>
+    <header>
+        <h1>Gestione Magazzini</h1>
+        <a href="home.php">🔙 Torna alla home</a>
+    </header>
 
-        <?php if (isset($msg)) echo "<p>$msg</p>"; ?>
+    <main>
+        <section class="admin-container">
+            <?php if (!empty($msg)): ?>
+                <p class="msg"><?= $msg ?></p>
+            <?php endif; ?>
 
-        <h3>📍 Aggiungi Magazzino</h3>
-        <form method="POST">
-            Posizione: <input type="text" name="posizione" required>
-            <input type="submit" name="aggiungi" value="Aggiungi">
-        </form>
+            <div class="form-section">
+                <h2>📍 Aggiungi Magazzino</h2>
+                <form method="POST">
+                    <input type="text" name="posizione" placeholder="Inserisci posizione" required>
+                    <input type="submit" name="aggiungi" value="Aggiungi">
+                </form>
+            </div>
 
-        <hr>
+            <hr>
 
-        <h3>📦 Magazzini Esistenti</h3>
-        <ul>
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <li>
-                    ID: <?= $row['magazzinoID'] ?> - <strong><?= htmlspecialchars($row['posizione']) ?></strong>
-                    <form method="POST" style="display:inline">
-                        <input type="hidden" name="magazzinoID" value="<?= $row['magazzinoID'] ?>">
-                        <input type="submit" name="elimina" value="Elimina" onclick="return confirm('Sei sicuro?')">
-                    </form>
-                </li>
-            <?php endwhile; ?>
-        </ul>
-
-        <a href="prodotti.php">🔙 Torna alla gestione prodotti</a>
-    </div>
+            <div class="list-section">
+                <h2>📦 Magazzini Esistenti</h2>
+                <ul>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <li>
+                            <span><strong>ID:</strong> <?= $row['mID'] ?> - <strong><?= htmlspecialchars($row['posizione']) ?></strong></span>
+                            <form method="POST" style="display:inline">
+                                <input type="hidden" name="magazzinoID" value="<?= $row['mID'] ?>">
+                                <input type="submit" name="elimina" value="Elimina" onclick="return confirm('Sei sicuro?')">
+                            </form>
+                        </li>
+                    <?php endwhile; ?>
+                </ul>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

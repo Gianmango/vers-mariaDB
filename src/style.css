@@ -47,6 +47,17 @@ body {
     padding: 2rem;
 }
 
+.centered-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 2rem 1rem;
+    position: relative;
+}
+
 /* Componenti form */
 .form-container {
     background-color: white;
@@ -129,6 +140,9 @@ body {
 }
 
 .logout-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
     background-color: var(--danger);
     color: white;
     padding: 0.8rem;
@@ -513,6 +527,102 @@ tr:hover {
 .delete:hover {
     background-color: #e01a6a;
 }
+
+/* Home Page Styles */
+.home-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card i {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.card a {
+    margin-top: 1rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+/* Logout Page Styles */
+.logout-container {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    max-width: 400px;
+    margin: 4rem auto;
+    text-align: center;
+}
+
+.logout-container h1 {
+    font-size: 2rem;
+    color: var(--danger);
+    margin-bottom: 1rem;
+}
+
+.logout-container p {
+    font-size: 1.1rem;
+    color: var(--gray);
+    margin-bottom: 2rem;
+}
+
+.logout-container a {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--primary);
+    color: white;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.logout-container a:hover {
+    background-color: var(--primary-dark);
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
